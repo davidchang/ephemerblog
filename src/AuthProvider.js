@@ -33,3 +33,5 @@ export default class AuthProvider extends React.Component {
     return <Provider value={this.state}>{this.props.children}</Provider>;
   }
 }
+
+export const getCurrentUser = () => firebase.auth().currentUser;

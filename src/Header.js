@@ -1,6 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import firebase from 'firebase';
 import { AuthConsumer } from './AuthProvider';
+import { Box, Button, Heading, Text } from 'gestalt';
 
 class Header extends Component {
   constructor(props) {
@@ -50,13 +51,30 @@ class Header extends Component {
         {({ user }) => {
           if (user) {
             return (
-              <Fragment>
-                <span>Logged in as {user.displayName}</span>
-                <button onClick={this.logOut}>Log Out</button>
-              </Fragment>
+              <Box paddingY={5}>
+                <Heading>EphemerBlog</Heading>
+                <Box display="flex" justifyContent="start">
+                  <Box
+                    marginRight={2}
+                    display="flex"
+                    direction="column"
+                    justifyContent="center"
+                  >
+                    <Text>Logged in as {user.displayName}</Text>
+                  </Box>
+                  <Box>
+                    <Button onClick={this.logOut} text="Log Out" />
+                  </Box>
+                </Box>
+              </Box>
             );
           }
-          return <button onClick={this.logIn}>Log In</button>;
+          return (
+            <Box paddingY={5}>
+              <Heading>EphemerBlog</Heading>
+              <Button inline onClick={this.logIn} text="Log In" />
+            </Box>
+          );
         }}
       </AuthConsumer>
     );
