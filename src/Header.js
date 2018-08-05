@@ -1,28 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import firebase from 'firebase';
+import { AuthConsumer } from './AuthProvider';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     const provider = new firebase.auth.TwitterAuthProvider();
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        // User is signed in.
-        this.setState({
-          user,
-        });
-      } else {
-        // No user is signed in.
-        this.setState({
-          user: null,
-        });
-      }
-    });
-
     this.state = {
       provider,
-      user: null,
     };
   }
 
@@ -59,16 +45,21 @@ class Header extends Component {
   };
 
   render() {
-    const { user } = this.state;
-    if (user) {
-      return (
-        <Fragment>
-          <span>Logged in as {user.displayName}</span>
-          <button onClick={this.logOut}>Log Out</button>
-        </Fragment>
-      );
-    }
-    return <button onClick={this.logIn}>Log In</button>;
+    return (
+      <AuthConsumer>
+        {({ user }) => {
+          if (user) {
+            return (
+              <Fragment>
+                <span>Logged in as {user.displayName}</span>
+                <button onClick={this.logOut}>Log Out</button>
+              </Fragment>
+            );
+          }
+          return <button onClick={this.logIn}>Log In</button>;
+        }}
+      </AuthConsumer>
+    );
   }
 }
 
