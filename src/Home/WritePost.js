@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import OnlyWhenAuthenticated from './OnlyWhenAuthenticatedHOC';
+import OnlyWhenAuthenticated from '../OnlyWhenAuthenticatedHOC';
 import { Box, Button, TextArea } from 'gestalt';
 import firebase from 'firebase';
-import { getCurrentUser } from './AuthProvider';
+import { getCurrentUser } from '../contexts/Auth';
 
 class WritePost extends Component {
   state = {
@@ -12,6 +12,7 @@ class WritePost extends Component {
   handleChange = ({ value }) => this.setState({ value });
 
   handleSubmit = () => {
+    const { onPublish } = this.props;
     firebase
       .firestore()
       .collection('posts')
@@ -22,9 +23,12 @@ class WritePost extends Component {
       })
       .then(docRef => {
         console.log('Document written with ID: ', docRef.id);
-        this.setState({
-          value: '',
-        });
+        this.setState(
+          {
+            value: '',
+          },
+          () => onPublish && onPublish(docRef),
+        );
       })
       .catch(error => {
         console.error('Error adding document: ', error);
@@ -42,7 +46,7 @@ class WritePost extends Component {
           placeholder="Write something..."
           value={value}
         />
-        <Box display="flex" justifyContent="end" paddingY={2}>
+        <Box display="flex" justifyContent="end" marginTop={2}>
           <Box>
             <Button
               text="Submit"

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { AuthConsumer } from './AuthProvider';
+import { AuthConsumer } from './contexts/Auth';
 import { Box, Button, Heading, Text } from 'gestalt';
 
 class Header extends Component {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { AuthConsumer } from './AuthProvider';
+import { AuthConsumer } from './contexts/Auth';
 
 export default function OnlyWhenAuthenticated(Component) {
-  const Inner = () => {
+  const Inner = props => {
     return (
       <AuthConsumer>
         {({ user }) => {
@@ -10,7 +10,7 @@ export default function OnlyWhenAuthenticated(Component) {
             return null;
           }
 
-          return <Component />;
+          return <Component {...props} />;
         }}
       </AuthConsumer>
     );
