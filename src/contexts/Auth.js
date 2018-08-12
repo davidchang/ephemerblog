@@ -3,6 +3,7 @@ import firebase from 'firebase';
 
 const DEFAULT_STATE = {
   user: null,
+  userLoaded: false,
 };
 
 const { Provider, Consumer } = createContext(DEFAULT_STATE);
@@ -19,11 +20,13 @@ export default class AuthProvider extends React.Component {
         console.log('user', user);
         this.setState({
           user,
+          userLoaded: true,
         });
       } else {
         // No user is signed in.
         this.setState({
           user: null,
+          userLoaded: true,
         });
       }
     });

@@ -22,6 +22,7 @@ export default class PostsProvider extends React.Component {
       .firestore()
       .collection('posts')
       .where('authorID', '==', authorID)
+      .orderBy('createdAt', 'desc')
       .get()
       .then(querySnapshot => {
         this.setState({

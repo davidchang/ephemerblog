@@ -5,8 +5,8 @@ export default function OnlyWhenAuthenticated(Component) {
   const Inner = props => {
     return (
       <AuthConsumer>
-        {({ user }) => {
-          if (!user) {
+        {({ userLoaded, user }) => {
+          if (!userLoaded || !user) {
             return null;
           }
 
