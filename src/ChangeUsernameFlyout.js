@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Box, Button, Flyout, TextField } from 'gestalt';
-import firebase from 'firebase';
+import { updateUserInfo } from './firebaseActions';
 
 class ChangeUsernameFlyout extends Component {
   state = {
     open: false,
-    username: this.props.initialUsername,
+    username: this.props.initialUsername || '',
+    saving: false,
   };
 
   handleClick = () => this.setState(() => ({ open: !this.state.open }));
@@ -13,21 +14,29 @@ class ChangeUsernameFlyout extends Component {
   handleUsernameChange = ({ value }) => this.setState({ username: value });
   handleSave = () => {
     const { username } = this.state;
-    const { onChange } = this.props;
-    const user = firebase.auth().currentUser;
+    this.setState({
+      saving: true,
+    });
 
-    user
-      .updateProfile({
-        displayName: username,
-      })
-      .then(() => this.setState({ open: false }, () => onChange(username)))
+    updateUserInfo({
+      username,
+    })
+      .then(() =>
+        this.setState({
+          open: false,
+          saving: false,
+        }),
+      )
       .catch(error => {
         console.error(error);
+        this.setState({
+          saving: false,
+        });
       });
   };
 
   render() {
-    const { open, username } = this.state;
+    const { open, username, saving } = this.state;
 
     return (
       <Box paddingX={2}>
@@ -54,7 +63,11 @@ class ChangeUsernameFlyout extends Component {
                 value={username}
               />
               <Box marginTop={3}>
-                <Button onClick={this.handleSave} text="Save username" />
+                <Button
+                  disabled={saving}
+                  onClick={this.handleSave}
+                  text="Save username"
+                />
               </Box>
             </Box>
           </Flyout>

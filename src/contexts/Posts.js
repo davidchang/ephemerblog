@@ -1,10 +1,10 @@
 import React, { createContext } from 'react';
-import firebase from 'firebase';
+import { getPosts } from '../firebaseActions';
 
 const DEFAULT_STATE = {
   posts: [],
-  fetching: false,
-  fetched: false,
+  loading: false,
+  loaded: false,
 };
 
 const { Provider, Consumer } = createContext(DEFAULT_STATE);
@@ -15,26 +15,21 @@ export default class PostsProvider extends React.Component {
 
   fetchPosts = authorID => {
     this.setState({
-      fetching: true,
+      loading: true,
     });
 
-    firebase
-      .firestore()
-      .collection('posts')
-      .where('authorID', '==', authorID)
-      .orderBy('createdAt', 'desc')
-      .get()
+    getPosts(authorID)
       .then(querySnapshot => {
         this.setState({
           posts: querySnapshot.docs,
-          fetching: false,
-          fetched: true,
+          loading: false,
+          loaded: true,
         });
       })
       .catch(error => {
         console.log('Error getting documents: ', error);
         // todo show this; not exactly sure what this object is
-        this.setState({ error, fetching: false, fetched: true });
+        this.setState({ error, loading: false, loaded: true });
       });
   };
 

@@ -9,7 +9,11 @@ class PostList extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { loaded, posts } = this.props;
+    if (!loaded) {
+      return null;
+    }
+
     if (posts.length === 0) {
       return (
         <Box paddingY={4}>

@@ -12,7 +12,6 @@ class Header extends Component {
 
     this.state = {
       provider,
-      justChangedName: null,
     };
   }
 
@@ -51,8 +50,8 @@ class Header extends Component {
   render() {
     return (
       <AuthConsumer>
-        {({ userLoaded, user }) => {
-          if (!userLoaded) {
+        {({ loaded, user }) => {
+          if (!loaded) {
             return null;
           }
 
@@ -68,16 +67,9 @@ class Header extends Component {
                     direction="column"
                     justifyContent="center"
                   >
-                    <Text>
-                      Logged in as{' '}
-                      {this.state.justChangedName || user.displayName}
-                    </Text>
+                    <Text>Logged in as {user.displayName}</Text>
                   </Box>
-                  <ChangeUsernameFlyout
-                    initialUsername={user.displayName}
-                    onChange={newName =>
-                      this.setState({ justChangedName: newName })}
-                  />
+                  <ChangeUsernameFlyout initialUsername={user.username} />
                   <Box>
                     <Button onClick={this.logOut} text="Log Out" />
                   </Box>

@@ -3,12 +3,13 @@ import { AuthConsumer } from '../contexts/Auth';
 import { PostsConsumer } from '../contexts/Posts';
 import WritePost from './WritePost';
 import PostList from '../PostList';
+import { getCurrentUserID } from '../contexts/Auth';
 
 function Home() {
   return (
     <AuthConsumer>
-      {({ user }) => {
-        if (!user) {
+      {({ loaded, user }) => {
+        if (!loaded || !user) {
           return null;
         }
 
@@ -16,12 +17,10 @@ function Home() {
           <Fragment>
             <PostsConsumer>
               {({ fetchPosts }) => (
-                <WritePost
-                  onPublish={() => fetchPosts(user.providerData[0].uid)}
-                />
+                <WritePost onPublish={() => fetchPosts(getCurrentUserID())} />
               )}
             </PostsConsumer>
-            <PostList userID={user.providerData[0].uid} />
+            <PostList userID={getCurrentUserID()} />
           </Fragment>
         );
       }}
