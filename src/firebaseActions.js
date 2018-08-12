@@ -13,7 +13,21 @@ export const updateUserInfo = userInfo =>
     .firestore()
     .collection('users')
     .doc(getCurrentUserID())
-    .set(userInfo, { merge: true });
+    .set({ ...userInfo, userID: getCurrentUserID() }, { merge: true });
+
+export const findUserByUsername = username =>
+  firebase
+    .firestore()
+    .collection('users')
+    .where('username', '==', username)
+    .get()
+    .then(doc => {
+      if (!doc.empty) {
+        return doc.docs[0].data();
+      }
+
+      return null;
+    });
 
 export const getPosts = authorID =>
   firebase

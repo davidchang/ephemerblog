@@ -21,12 +21,6 @@ export default class AuthProvider extends React.Component {
         console.log('user', user);
         console.log('getCurrentUserID', getCurrentUserID());
         getUserInfo(getCurrentUserID()).then(doc => {
-          if (doc.exists) {
-            console.log('Document data:', doc.data());
-          } else {
-            // doc.data() will be undefined in this case
-            console.log('No such document!');
-          }
           this.setState({
             user: {
               displayName: user.displayName,
