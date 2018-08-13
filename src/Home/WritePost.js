@@ -13,7 +13,6 @@ class WritePost extends Component {
   handleSubmit = () => {
     const { onPublish } = this.props;
     publish(this.state.value).then(docRef => {
-      console.log('Document written with ID: ', docRef.id);
       this.setState(
         {
           value: '',

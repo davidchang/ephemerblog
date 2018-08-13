@@ -19,18 +19,8 @@ class Header extends Component {
     firebase
       .auth()
       .signInWithPopup(this.state.provider)
-      .then(result => {
-        const { user, additionalUserInfo } = result;
-        const { displayName, photoURL } = user;
-        const { username } = additionalUserInfo;
-
-        const userInfo = { displayName, photoURL, username };
-
-        console.log('result', result, userInfo);
-      })
       .catch(error => {
         const { code, message } = error;
-
         console.log('error', error, { code, message });
       });
   };

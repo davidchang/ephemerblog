@@ -18,8 +18,6 @@ export default class AuthProvider extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // User is signed in.
-        console.log('user', user);
-        console.log('getCurrentUserID', getCurrentUserID());
         getUserInfo(getCurrentUserID()).then(doc => {
           this.setState({
             user: {
