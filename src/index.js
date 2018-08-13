@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 import 'gestalt/dist/gestalt.css';
 
 firebase.initializeApp({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { Link } from 'react-router-dom';
 import { AuthConsumer } from './contexts/Auth';
 import { Box, Button, Heading, Text } from 'gestalt';
